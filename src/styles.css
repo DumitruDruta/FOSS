@@ -88,3 +88,11 @@ body {
 .game-info {
   margin-left: 20px;
 }
+
+.X {
+  color: blue;
+}
+
+.O{
+  color: red
+}

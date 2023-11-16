@@ -3,7 +3,7 @@ import { useState } from 'react';
 function Square({ value, onSquareClick }) {
   return (
     <button className="square" onClick={onSquareClick}>
-      {value}
+      <div className={`pill ${ value }`}>{value}</div>
     </button>
   );
 }
