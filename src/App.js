@@ -8,7 +8,7 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-function Board({ xIsNext, squares, onPlay }) {
+function Board({ xIsNext, squares, onPlay, bot}) {
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
       return;
@@ -20,6 +20,16 @@ function Board({ xIsNext, squares, onPlay }) {
       nextSquares[i] = 'O';
     }
     onPlay(nextSquares);
+    if (bot) {
+      const nulls = [];
+      for (let i = 0; i <= 8; i++) {
+        if (!nextSquares[i]){
+          nulls.push(i);
+        }
+      }
+      nextSquares[nulls[Math.floor(Math.random() * nulls.length)]] = "O";
+      onPlay(nextSquares);
+    }
   }
 
   const winner = calculateWinner(squares);
@@ -53,10 +63,13 @@ function Board({ xIsNext, squares, onPlay }) {
 }
 
 export default function Game() {
+  const [bot, setBot] = useState(false);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
-  const xIsNext = currentMove % 2 === 0;
+  const xIsNext = bot ? true : (currentMove % 2 === 0);
   const currentSquares = history[currentMove];
+  
+  const [botText, setBotText] = useState("activate");
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -68,6 +81,16 @@ export default function Game() {
     setCurrentMove(nextMove);
   }
 
+  function handleBot () {
+    
+    if (bot) {
+      setBotText("activate");
+      setBot(false);
+    } else {
+      setBotText("deactivate");
+      setBot(true);
+    }
+  }
   const moves = history.map((squares, move) => {
     let description;
     if (move > 0) {
@@ -83,14 +106,19 @@ export default function Game() {
   });
 
   return (
-    <div className="game">
+      <>
+      <div className="game">
       <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} bot={bot}/>
       </div>
       <div className="game-info">
         <ol>{moves}</ol>
       </div>
-    </div>
+      </div>
+    <br></br>
+    <div><button onClick= {() => handleBot()}>{"Bot " + botText}</button></div>
+      
+      </>
   );
 }
 
