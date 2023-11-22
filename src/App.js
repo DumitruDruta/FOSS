@@ -77,7 +77,9 @@ export default function Game() {
     }
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        <button onClick={() => jumpTo(move)} className="buttonStyle">
+          {description}
+        </button>
       </li>
     );
   });
