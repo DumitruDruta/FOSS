@@ -1,9 +1,11 @@
 import { useState } from "react";
+import ReactSwitch from "react-switch";
+
 
 function Square({ value, onSquareClick }) {
   return (
     <button className="square" onClick={onSquareClick}>
-      {value}
+      <div className={`pill ${value}`}>{value}</div>
     </button>
   );
 }
@@ -91,6 +93,57 @@ export default function Board() {
         <button onClick={handleClicknameO}>Enter</button>
       </div>
     </>
+  );
+}
+
+export default function Game() {
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const [currentMove, setCurrentMove] = useState(0);
+  const xIsNext = currentMove % 2 === 0;
+  const currentSquares = history[currentMove];
+  const [theme, setTheme] = useState("dark");
+
+  const toggleTheme = () => {
+    setTheme((curr) => (curr === "light" ? "dark" : "light"));
+  };
+
+  function handlePlay(nextSquares) {
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length - 1);
+  }
+
+  function jumpTo(nextMove) {
+    setCurrentMove(nextMove);
+  }
+
+  const moves = history.map((squares, move) => {
+    let description;
+    if (move > 0) {
+      description = "Go to move #" + move;
+    } else {
+      description = "Go to game start";
+    }
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)} className="buttonStyle">
+          {description}
+        </button>
+      </li>
+    );
+  });
+
+  return (
+    <div className="game" id={theme}>
+      <label>{theme === "light" ? "Light Mode" : "Dark Mode"}</label>
+      <ReactSwitch onChange={toggleTheme} checked={theme === "dark"} />
+      <div className="game-board">
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+      </div>
+      <div className="game-info">
+        <ol className="orderedList">{moves}</ol>
+      </div>
+    </div>
   );
 }
 
