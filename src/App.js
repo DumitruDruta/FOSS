@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 function Square({ value, onSquareClick }) {
   return (
@@ -8,22 +8,22 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-function Board({ xIsNext, squares, onPlay, bot}) {
+function Board({ xIsNext, squares, onPlay, bot }) {
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
     const nextSquares = squares.slice();
     if (xIsNext) {
-      nextSquares[i] = 'X';
+      nextSquares[i] = "X";
     } else {
-      nextSquares[i] = 'O';
+      nextSquares[i] = "O";
     }
     onPlay(nextSquares);
     if (bot) {
       const nulls = [];
       for (let i = 0; i <= 8; i++) {
-        if (!nextSquares[i]){
+        if (!nextSquares[i]) {
           nulls.push(i);
         }
       }
@@ -35,9 +35,9 @@ function Board({ xIsNext, squares, onPlay, bot}) {
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
-    status = 'Winner: ' + winner;
+    status = "Winner: " + winner;
   } else {
-    status = 'Next player: ' + (xIsNext ? 'X' : 'O');
+    status = "Next player: " + (xIsNext ? "X" : "O");
   }
 
   return (
@@ -66,9 +66,9 @@ export default function Game() {
   const [bot, setBot] = useState(false);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
-  const xIsNext = bot ? true : (currentMove % 2 === 0);
+  const xIsNext = bot ? true : currentMove % 2 === 0;
   const currentSquares = history[currentMove];
-  
+
   const [botText, setBotText] = useState("activate");
 
   function handlePlay(nextSquares) {
@@ -81,8 +81,7 @@ export default function Game() {
     setCurrentMove(nextMove);
   }
 
-  function handleBot () {
-    
+  function handleBot() {
     if (bot) {
       setBotText("activate");
       setBot(false);
@@ -94,9 +93,9 @@ export default function Game() {
   const moves = history.map((squares, move) => {
     let description;
     if (move > 0) {
-      description = 'Go to move #' + move;
+      description = "Go to move #" + move;
     } else {
-      description = 'Go to game start';
+      description = "Go to game start";
     }
     return (
       <li key={move}>
@@ -106,19 +105,25 @@ export default function Game() {
   });
 
   return (
-      <>
+    <>
       <div className="game">
-      <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} bot={bot}/>
+        <div className="game-board">
+          <Board
+            xIsNext={xIsNext}
+            squares={currentSquares}
+            onPlay={handlePlay}
+            bot={bot}
+          />
+        </div>
+        <div className="game-info">
+          <ol>{moves}</ol>
+        </div>
       </div>
-      <div className="game-info">
-        <ol>{moves}</ol>
+      <br></br>
+      <div>
+        <button onClick={() => handleBot()}>{"Bot " + botText}</button>
       </div>
-      </div>
-    <br></br>
-    <div><button onClick= {() => handleBot()}>{"Bot " + botText}</button></div>
-      
-      </>
+    </>
   );
 }
 
