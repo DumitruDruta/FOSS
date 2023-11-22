@@ -13,9 +13,9 @@ export default function Board() {
   const [squares, setSquares] = useState(Array(9).fill(null));
 
   const [xname, setXName] = useState('');
-  const [enteredNameX, setenteredNameX] = useState(xname);
+  const [enteredNameX, setenteredNameX] = useState('');
   const [oname, setOName] = useState('');
-  const [enteredNameO, setEnteredNameO] = useState(oname);
+  const [enteredNameO, setEnteredNameO] = useState('');
 
   function handleClicknameX(e) {
     setenteredNameX(xname);
