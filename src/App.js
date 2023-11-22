@@ -1,10 +1,11 @@
 import { useState } from "react";
 import ReactSwitch from "react-switch";
 
+
 function Square({ value, onSquareClick }) {
   return (
     <button className="square" onClick={onSquareClick}>
-      {value}
+      <div className={`pill ${value}`}>{value}</div>
     </button>
   );
 }
@@ -83,7 +84,9 @@ export default function Game() {
     }
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        <button onClick={() => jumpTo(move)} className="buttonStyle">
+          {description}
+        </button>
       </li>
     );
   });
@@ -96,7 +99,7 @@ export default function Game() {
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
-        <ol>{moves}</ol>
+        <ol className="orderedList">{moves}</ol>
       </div>
     </div>
   );
