@@ -1,14 +1,33 @@
 import { useState } from "react";
+import ReactSwitch from "react-switch";
+
 
 function Square({ value, onSquareClick }) {
   return (
     <button className="square" onClick={onSquareClick}>
-      {value}
+      <div className={`pill ${value}`}>{value}</div>
     </button>
   );
 }
 
-function Board({ xIsNext, squares, onPlay, bot }) {
+
+function Board({ xIsNext, squares, onPlay, bot}) {
+
+  const [xname, setXName] = useState("");
+  const [enteredNameX, setenteredNameX] = useState("");
+  const [oname, setOName] = useState("");
+  const [enteredNameO, setEnteredNameO] = useState("");
+
+  function handleClicknameX(e) {
+    setenteredNameX(xname);
+    setXName("");
+  }
+  function handleClicknameO(e) {
+    setEnteredNameO(oname);
+    setOName("");
+  }
+
+
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
       return;
@@ -23,7 +42,7 @@ function Board({ xIsNext, squares, onPlay, bot }) {
     if (bot) {
       const nulls = [];
       for (let i = 0; i <= 8; i++) {
-        if (!nextSquares[i]) {
+        if (!nextSquares[i]){
           nulls.push(i);
         }
       }
@@ -34,10 +53,12 @@ function Board({ xIsNext, squares, onPlay, bot }) {
 
   const winner = calculateWinner(squares);
   let status;
-  if (winner) {
-    status = "Winner: " + winner;
+  if (winner == "O") {
+    status = "Winner: " + enteredNameO;
+  } else if (winner == "X") {
+    status = "Winner: " + enteredNameX;
   } else {
-    status = "Next player: " + (xIsNext ? "X" : "O");
+    status = "Next player: " + (xIsNext ? enteredNameX : enteredNameO);
   }
 
   return (
@@ -58,6 +79,28 @@ function Board({ xIsNext, squares, onPlay, bot }) {
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
       </div>
+
+      <div>
+        <p>
+          <small>X Player: {enteredNameX}</small>
+        </p>
+        <input
+          type="text"
+          onChange={(e) => setXName(e.target.value)}
+          value={xname}
+        />
+        <button onClick={handleClicknameX}>Enter</button>
+
+        <p>
+          <small>O Player: {enteredNameO}</small>
+        </p>
+        <input
+          type="text"
+          onChange={(e) => setOName(e.target.value)}
+          value={oname}
+        />
+        <button onClick={handleClicknameO}>Enter</button>
+      </div>
     </>
   );
 }
@@ -66,10 +109,15 @@ export default function Game() {
   const [bot, setBot] = useState(false);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
-  const xIsNext = bot ? true : currentMove % 2 === 0;
+  const xIsNext = bot ? true : (currentMove % 2 === 0);
   const currentSquares = history[currentMove];
-
+  
   const [botText, setBotText] = useState("activate");
+  const [theme, setTheme] = useState("dark");
+
+  const toggleTheme = () => {
+    setTheme((curr) => (curr === "light" ? "dark" : "light"));
+  };
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -81,7 +129,8 @@ export default function Game() {
     setCurrentMove(nextMove);
   }
 
-  function handleBot() {
+  function handleBot () {
+    
     if (bot) {
       setBotText("activate");
       setBot(false);
@@ -99,31 +148,33 @@ export default function Game() {
     }
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        <button onClick={() => jumpTo(move)} className="buttonStyle">
+          {description}
+        </button>
       </li>
     );
   });
 
   return (
-    <>
-      <div className="game">
-        <div className="game-board">
-          <Board
-            xIsNext={xIsNext}
-            squares={currentSquares}
-            onPlay={handlePlay}
-            bot={bot}
-          />
-        </div>
-        <div className="game-info">
-          <ol>{moves}</ol>
-        </div>
+
+      <>
+
+
+    <div className="game" id={theme}>
+      <label>{theme === "light" ? "Light Mode" : "Dark Mode"}</label>
+      <ReactSwitch onChange={toggleTheme} checked={theme === "dark"} />
+
+      <div className="game-board">
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} bot={bot}/>
       </div>
-      <br></br>
-      <div>
-        <button onClick={() => handleBot()}>{"Bot " + botText}</button>
+      <div className="game-info">
+        <ol className="orderedList">{moves}</ol>
       </div>
-    </>
+      </div>
+    <br></br>
+    <div><button onClick= {() => handleBot()}>{"Bot " + botText}</button></div>
+      
+      </>
   );
 }
 
