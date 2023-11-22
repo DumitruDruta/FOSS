@@ -1,4 +1,6 @@
 import { useState } from "react";
+import ReactSwitch from "react-switch";
+
 
 function Square({ value, onSquareClick }) {
   return (
@@ -57,6 +59,11 @@ export default function Game() {
   const [currentMove, setCurrentMove] = useState(0);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
+  const [theme, setTheme] = useState("dark");
+
+  const toggleTheme = () => {
+    setTheme((curr) => (curr === "light" ? "dark" : "light"));
+  };
 
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
@@ -85,7 +92,9 @@ export default function Game() {
   });
 
   return (
-    <div className="game">
+    <div className="game" id={theme}>
+      <label>{theme === "light" ? "Light Mode" : "Dark Mode"}</label>
+      <ReactSwitch onChange={toggleTheme} checked={theme === "dark"} />
       <div className="game-board">
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
