@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 function Square({ value, onSquareClick }) {
   return (
@@ -12,18 +12,18 @@ export default function Board() {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
 
-  const [xname, setXName] = useState('');
-  const [enteredNameX, setenteredNameX] = useState('');
-  const [oname, setOName] = useState('');
-  const [enteredNameO, setEnteredNameO] = useState('');
+  const [xname, setXName] = useState("");
+  const [enteredNameX, setenteredNameX] = useState("");
+  const [oname, setOName] = useState("");
+  const [enteredNameO, setEnteredNameO] = useState("");
 
   function handleClicknameX(e) {
     setenteredNameX(xname);
-    setXName('');
+    setXName("");
   }
   function handleClicknameO(e) {
     setEnteredNameO(oname);
-    setOName('');
+    setOName("");
   }
 
   function handleClick(i) {
@@ -32,9 +32,9 @@ export default function Board() {
     }
     const nextSquares = squares.slice();
     if (xIsNext) {
-      nextSquares[i] = 'X';
+      nextSquares[i] = "X";
     } else {
-      nextSquares[i] = 'O';
+      nextSquares[i] = "O";
     }
     setSquares(nextSquares);
     setXIsNext(!xIsNext);
@@ -42,14 +42,12 @@ export default function Board() {
 
   const winner = calculateWinner(squares);
   let status;
-  if (winner == 'O') {
-    status = 'Winner: ' + enteredNameO;
-  }
-  else if (winner == 'X') {
-    status = 'Winner: ' + enteredNameX;
-  }
-  else {
-    status = 'Next player: ' + (xIsNext ? enteredNameX : enteredNameO);
+  if (winner == "O") {
+    status = "Winner: " + enteredNameO;
+  } else if (winner == "X") {
+    status = "Winner: " + enteredNameX;
+  } else {
+    status = "Next player: " + (xIsNext ? enteredNameX : enteredNameO);
   }
 
   return (
@@ -72,12 +70,24 @@ export default function Board() {
       </div>
 
       <div>
-        <p><small>X Player: {enteredNameX}</small></p>
-        <input type='text' onChange={(e) => setXName(e.target.value)} value={xname} />
+        <p>
+          <small>X Player: {enteredNameX}</small>
+        </p>
+        <input
+          type="text"
+          onChange={(e) => setXName(e.target.value)}
+          value={xname}
+        />
         <button onClick={handleClicknameX}>Enter</button>
 
-        <p><small>O Player: {enteredNameO}</small></p>
-        <input type='text' onChange={(e) => setOName(e.target.value)} value={oname} />
+        <p>
+          <small>O Player: {enteredNameO}</small>
+        </p>
+        <input
+          type="text"
+          onChange={(e) => setOName(e.target.value)}
+          value={oname}
+        />
         <button onClick={handleClicknameO}>Enter</button>
       </div>
     </>
@@ -103,7 +113,3 @@ function calculateWinner(squares) {
   }
   return null;
 }
-
-
-
-
