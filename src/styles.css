@@ -89,6 +89,14 @@ body {
   margin-left: 20px;
 }
 
+.X {
+  color: blue;
+}
+
+.O{
+  color: red
+}
+
 .buttonStyle {
   background-color: #4CAF50;
   color: white;
