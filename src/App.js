@@ -10,7 +10,24 @@ function Square({ value, onSquareClick }) {
   );
 }
 
-function Board({ xIsNext, squares, onPlay }) {
+export default function Board() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [squares, setSquares] = useState(Array(9).fill(null));
+
+  const [xname, setXName] = useState("");
+  const [enteredNameX, setenteredNameX] = useState("");
+  const [oname, setOName] = useState("");
+  const [enteredNameO, setEnteredNameO] = useState("");
+
+  function handleClicknameX(e) {
+    setenteredNameX(xname);
+    setXName("");
+  }
+  function handleClicknameO(e) {
+    setEnteredNameO(oname);
+    setOName("");
+  }
+
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
       return;
@@ -21,15 +38,18 @@ function Board({ xIsNext, squares, onPlay }) {
     } else {
       nextSquares[i] = "O";
     }
-    onPlay(nextSquares);
+    setSquares(nextSquares);
+    setXIsNext(!xIsNext);
   }
 
   const winner = calculateWinner(squares);
   let status;
-  if (winner) {
-    status = "Winner: " + winner;
+  if (winner == "O") {
+    status = "Winner: " + enteredNameO;
+  } else if (winner == "X") {
+    status = "Winner: " + enteredNameX;
   } else {
-    status = "Next player: " + (xIsNext ? "X" : "O");
+    status = "Next player: " + (xIsNext ? enteredNameX : enteredNameO);
   }
 
   return (
@@ -49,6 +69,28 @@ function Board({ xIsNext, squares, onPlay }) {
         <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
         <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
         <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
+      </div>
+
+      <div>
+        <p>
+          <small>X Player: {enteredNameX}</small>
+        </p>
+        <input
+          type="text"
+          onChange={(e) => setXName(e.target.value)}
+          value={xname}
+        />
+        <button onClick={handleClicknameX}>Enter</button>
+
+        <p>
+          <small>O Player: {enteredNameO}</small>
+        </p>
+        <input
+          type="text"
+          onChange={(e) => setOName(e.target.value)}
+          value={oname}
+        />
+        <button onClick={handleClicknameO}>Enter</button>
       </div>
     </>
   );
