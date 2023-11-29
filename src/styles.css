@@ -1,13 +1,10 @@
-* {
+/* * {
   box-sizing: border-box;
-}
-
-
-
+} */
 
 body {
   font-family: sans-serif;
-  margin: 20px;
+  margin: 0;
   padding: 0;
 }
 
@@ -47,16 +44,6 @@ code {
 
 ul {
   padding-inline-start: 20px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: sans-serif;
-  margin: 20px;
-  padding: 0;
 }
 
 .square {
@@ -119,10 +106,12 @@ body {
 
 .X {
   color: blue;
+  font-size: large;
 }
 
 .O{
-  color: red
+  color: red;
+  font-size: large;
 }
 
 .buttonStyle {
