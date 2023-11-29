@@ -1,32 +1,52 @@
 import { useState } from "react";
 import ReactSwitch from "react-switch";
-
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Grid,
+  Paper,
+  TextField,
+} from "@mui/material";
 
 function Square({ value, onSquareClick }) {
   return (
-    <button className="square" onClick={onSquareClick}>
-      <div className={`pill ${value}`}>{value}</div>
-    </button>
+    <Button
+      className="square"
+      onClick={onSquareClick}
+      style={{ width: "60px", height: "60px" }}
+    >
+      <Paper
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        elevation={3}
+      >
+        <div className={`pill ${value}`}>{value}</div>
+      </Paper>
+    </Button>
   );
 }
 
-
-function Board({ xIsNext, squares, onPlay, bot}) {
-
+function Board({ xIsNext, squares, onPlay, bot }) {
   const [xname, setXName] = useState("");
-  const [enteredNameX, setenteredNameX] = useState("");
+  const [enteredNameX, setenteredNameX] = useState("X");
   const [oname, setOName] = useState("");
-  const [enteredNameO, setEnteredNameO] = useState("");
+  const [enteredNameO, setEnteredNameO] = useState("O");
 
   function handleClicknameX(e) {
     setenteredNameX(xname);
-    setXName("");
+    // setXName("");
   }
   function handleClicknameO(e) {
     setEnteredNameO(oname);
-    setOName("");
+    // setOName("");
   }
-
 
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
@@ -42,7 +62,7 @@ function Board({ xIsNext, squares, onPlay, bot}) {
     if (bot) {
       const nulls = [];
       for (let i = 0; i <= 8; i++) {
-        if (!nextSquares[i]){
+        if (!nextSquares[i]) {
           nulls.push(i);
         }
       }
@@ -63,44 +83,114 @@ function Board({ xIsNext, squares, onPlay, bot}) {
 
   return (
     <>
-      <div className="status">{status}</div>
-      <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-      </div>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Paper
+            elevation={3}
+            sx={{ padding: 2, display: "flex", flexDirection: "column" }}
+          >
+            <TextField
+              type="text"
+              onChange={(e) => setXName(e.target.value)}
+              value={xname}
+              label="X Player"
+              margin="normal"
+            />
+            <Button
+              onClick={handleClicknameX}
+              variant="contained"
+              color="primary"
+            >
+              Enter
+            </Button>
+            <br />
+            <TextField
+              type="text"
+              onChange={(e) => setOName(e.target.value)}
+              value={oname}
+              label="O Player"
+              margin="normal"
+            />
+            <Button
+              onClick={handleClicknameO}
+              variant="contained"
+              color="primary"
+            >
+              Enter
+            </Button>
+          </Paper>
+        </Grid>
+        <Grid item xs={6} style={{ marginTop: "30px" }}>
+          <Grid container direction="column" alignItems="center">
+            <Typography variant="h6" className="status">
+              {status}
+            </Typography>
 
-      <div>
-        <p>
-          <small>X Player: {enteredNameX}</small>
-        </p>
-        <input
-          type="text"
-          onChange={(e) => setXName(e.target.value)}
-          value={xname}
-        />
-        <button onClick={handleClicknameX}>Enter</button>
+            <Grid container item spacing={2} justifyContent="center">
+              <Grid item>
+                <Square
+                  value={squares[0]}
+                  onSquareClick={() => handleClick(0)}
+                />
+              </Grid>
+              <Grid item>
+                <Square
+                  value={squares[1]}
+                  onSquareClick={() => handleClick(1)}
+                />
+              </Grid>
+              <Grid item>
+                <Square
+                  value={squares[2]}
+                  onSquareClick={() => handleClick(2)}
+                />
+              </Grid>
+            </Grid>
 
-        <p>
-          <small>O Player: {enteredNameO}</small>
-        </p>
-        <input
-          type="text"
-          onChange={(e) => setOName(e.target.value)}
-          value={oname}
-        />
-        <button onClick={handleClicknameO}>Enter</button>
-      </div>
+            <Grid container item spacing={2} justifyContent="center">
+              <Grid item>
+                <Square
+                  value={squares[3]}
+                  onSquareClick={() => handleClick(3)}
+                />
+              </Grid>
+              <Grid item>
+                <Square
+                  value={squares[4]}
+                  onSquareClick={() => handleClick(4)}
+                />
+              </Grid>
+              <Grid item>
+                <Square
+                  value={squares[5]}
+                  onSquareClick={() => handleClick(5)}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid container item spacing={2} justifyContent="center">
+              <Grid item>
+                <Square
+                  value={squares[6]}
+                  onSquareClick={() => handleClick(6)}
+                />
+              </Grid>
+              <Grid item>
+                <Square
+                  value={squares[7]}
+                  onSquareClick={() => handleClick(7)}
+                />
+              </Grid>
+              <Grid item>
+                <Square
+                  value={squares[8]}
+                  onSquareClick={() => handleClick(8)}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 }
@@ -109,9 +199,9 @@ export default function Game() {
   const [bot, setBot] = useState(false);
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
-  const xIsNext = bot ? true : (currentMove % 2 === 0);
+  const xIsNext = bot ? true : currentMove % 2 === 0;
   const currentSquares = history[currentMove];
-  
+
   const [botText, setBotText] = useState("activate");
   const [theme, setTheme] = useState("dark");
 
@@ -129,8 +219,7 @@ export default function Game() {
     setCurrentMove(nextMove);
   }
 
-  function handleBot () {
-    
+  function handleBot() {
     if (bot) {
       setBotText("activate");
       setBot(false);
@@ -156,25 +245,48 @@ export default function Game() {
   });
 
   return (
+    <div id={theme}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            TIC - TAC - TOE
+          </Typography>
+          <Button
+            variant="outlined"
+            color="inherit"
+            onClick={() => handleBot()}
+          >
+            {"Bot " + botText}
+          </Button>
+          <div style={{ marginLeft: "30px" }}>
+            <ReactSwitch onChange={toggleTheme} checked={theme === "dark"} />
+          </div>
+          {/* <label>{theme === "light" ? "Light Mode" : "Dark Mode"}</label> */}
+        </Toolbar>
+      </AppBar>
 
-      <>
-
-
-    <div className="game" id={theme}>
-      <label>{theme === "light" ? "Light Mode" : "Dark Mode"}</label>
-      <ReactSwitch onChange={toggleTheme} checked={theme === "dark"} />
-
-      <div className="game-board">
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} bot={bot}/>
+      <div
+        className="game"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "40px",
+        }}
+      >
+        <div className="game-board">
+          <Board
+            xIsNext={xIsNext}
+            squares={currentSquares}
+            onPlay={handlePlay}
+            bot={bot}
+          />
+        </div>
+        <div className="game-info">
+          <ol className="orderedList">{moves}</ol>
+        </div>
       </div>
-      <div className="game-info">
-        <ol className="orderedList">{moves}</ol>
-      </div>
-      </div>
-    <br></br>
-    <div><button onClick= {() => handleBot()}>{"Bot " + botText}</button></div>
-      
-      </>
+      <br></br>
+    </div>
   );
 }
 
