@@ -1,5 +1,5 @@
-import { useState } from "react";
-import ReactSwitch from "react-switch";
+import React, { useState } from "react"
+import ReactSwitch from "react-switch"
 import {
   AppBar,
   Toolbar,
@@ -7,8 +7,8 @@ import {
   Button,
   Grid,
   Paper,
-  TextField,
-} from "@mui/material";
+  TextField
+} from "@mui/material"
 
 function Square({ value, onSquareClick }) {
   return (
@@ -24,62 +24,62 @@ function Square({ value, onSquareClick }) {
           height: "100%",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "center"
         }}
         elevation={3}
       >
         <div className={`pill ${value}`}>{value}</div>
       </Paper>
     </Button>
-  );
+  )
 }
 
 function Board({ xIsNext, squares, onPlay, bot }) {
-  const [xname, setXName] = useState("");
-  const [enteredNameX, setenteredNameX] = useState("X");
-  const [oname, setOName] = useState("");
-  const [enteredNameO, setEnteredNameO] = useState("O");
+  const [xname, setXName] = useState("")
+  const [enteredNameX, setenteredNameX] = useState("X")
+  const [oname, setOName] = useState("")
+  const [enteredNameO, setEnteredNameO] = useState("O")
 
   function handleClicknameX(e) {
-    setenteredNameX(xname);
+    setenteredNameX(xname)
     // setXName("");
   }
   function handleClicknameO(e) {
-    setEnteredNameO(oname);
+    setEnteredNameO(oname)
     // setOName("");
   }
 
   function handleClick(i) {
     if (calculateWinner(squares) || squares[i]) {
-      return;
+      return
     }
-    const nextSquares = squares.slice();
+    const nextSquares = squares.slice()
     if (xIsNext) {
-      nextSquares[i] = "X";
+      nextSquares[i] = "X"
     } else {
-      nextSquares[i] = "O";
+      nextSquares[i] = "O"
     }
-    onPlay(nextSquares);
+    onPlay(nextSquares)
     if (bot) {
-      const nulls = [];
+      const nulls = []
       for (let i = 0; i <= 8; i++) {
         if (!nextSquares[i]) {
-          nulls.push(i);
+          nulls.push(i)
         }
       }
-      nextSquares[nulls[Math.floor(Math.random() * nulls.length)]] = "O";
-      onPlay(nextSquares);
+      nextSquares[nulls[Math.floor(Math.random() * nulls.length)]] = "O"
+      onPlay(nextSquares)
     }
   }
 
-  const winner = calculateWinner(squares);
-  let status;
-  if (winner == "O") {
-    status = "Winner: " + enteredNameO;
-  } else if (winner == "X") {
-    status = "Winner: " + enteredNameX;
+  const winner = calculateWinner(squares)
+  let status
+  if (winner === "O") {
+    status = "Winner: " + enteredNameO
+  } else if (winner === "X") {
+    status = "Winner: " + enteredNameX
   } else {
-    status = "Next player: " + (xIsNext ? enteredNameX : enteredNameO);
+    status = "Next player: " + (xIsNext ? enteredNameX : enteredNameO)
   }
 
   return (
@@ -193,50 +193,50 @@ function Board({ xIsNext, squares, onPlay, bot }) {
         </Grid>
       </Grid>
     </>
-  );
+  )
 }
 
 export default function Game() {
-  const [bot, setBot] = useState(false);
-  const [history, setHistory] = useState([Array(9).fill(null)]);
-  const [currentMove, setCurrentMove] = useState(0);
-  const xIsNext = bot ? true : currentMove % 2 === 0;
-  const currentSquares = history[currentMove];
+  const [bot, setBot] = useState(false)
+  const [history, setHistory] = useState([Array(9).fill(null)])
+  const [currentMove, setCurrentMove] = useState(0)
+  const xIsNext = bot ? true : currentMove % 2 === 0
+  const currentSquares = history[currentMove]
 
-  const [botText, setBotText] = useState("activate");
-  const [theme, setTheme] = useState("dark");
+  const [botText, setBotText] = useState("activate")
+  const [theme, setTheme] = useState("dark")
 
   const toggleTheme = () => {
-    setTheme((curr) => (curr === "light" ? "dark" : "light"));
-  };
+    setTheme((curr) => (curr === "light" ? "dark" : "light"))
+  }
 
   function handlePlay(nextSquares) {
-    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
-    setHistory(nextHistory);
-    setCurrentMove(nextHistory.length - 1);
+    const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
+    setHistory(nextHistory)
+    setCurrentMove(nextHistory.length - 1)
   }
 
   function jumpTo(nextMove) {
-    setCurrentMove(nextMove);
+    setCurrentMove(nextMove)
   }
 
   function handleBot() {
-    setCurrentMove(0);
-    setHistory([[Array(9).fill(null)]]);
+    setCurrentMove(0)
+    setHistory([[Array(9).fill(null)]])
     if (bot) {
-      setBotText("activate");
-      setBot(false);
+      setBotText("activate")
+      setBot(false)
     } else {
-      setBotText("deactivate");
-      setBot(true);
+      setBotText("deactivate")
+      setBot(true)
     }
   }
   const moves = history.map((squares, move) => {
-    let description;
+    let description
     if (move > 0) {
-      description = "Go to move #" + move;
+      description = "Go to move #" + move
     } else {
-      description = "Go to game start";
+      description = "Go to game start"
     }
     return (
       <li key={move}>
@@ -244,8 +244,8 @@ export default function Game() {
           {description}
         </button>
       </li>
-    );
-  });
+    )
+  })
 
   return (
     <div id={theme}>
@@ -273,7 +273,7 @@ export default function Game() {
         style={{
           display: "flex",
           justifyContent: "center",
-          marginTop: "40px",
+          marginTop: "40px"
         }}
       >
         <div className="game-board">
@@ -290,7 +290,7 @@ export default function Game() {
       </div>
       <br></br>
     </div>
-  );
+  )
 }
 
 function calculateWinner(squares) {
@@ -302,13 +302,13 @@ function calculateWinner(squares) {
     [1, 4, 7],
     [2, 5, 8],
     [0, 4, 8],
-    [2, 4, 6],
-  ];
+    [2, 4, 6]
+  ]
   for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
+    const [a, b, c] = lines[i]
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return squares[a]
     }
   }
-  return null;
+  return null
 }
