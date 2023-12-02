@@ -16,6 +16,7 @@ function Square({ value, onSquareClick }) {
       className="square"
       onClick={onSquareClick}
       style={{ width: "60px", height: "60px" }}
+      data-testid = "square"
     >
       <Paper
         style={{
