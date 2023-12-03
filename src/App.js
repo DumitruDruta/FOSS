@@ -248,7 +248,7 @@ export default function Game() {
   })
 
   return (
-    <div id={theme}>
+    <div id={theme} data-testid = "main-div">
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -262,7 +262,7 @@ export default function Game() {
             {"Bot " + botText}
           </Button>
           <div style={{ marginLeft: "30px" }}>
-            <ReactSwitch onChange={toggleTheme} checked={theme === "dark"} />
+            <ReactSwitch onChange={toggleTheme} checked={theme === "dark"} data-testid = "theme-switch"/>
           </div>
           {/* <label>{theme === "light" ? "Light Mode" : "Dark Mode"}</label> */}
         </Toolbar>
