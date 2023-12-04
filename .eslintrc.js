@@ -24,7 +24,8 @@ module.exports = {
   },
   plugins: [
     "react",
-    "jest"
+    "jest",
+    "n"
   ],
   rules: {
     quotes: ["error", "double"], // use Always double quotes
