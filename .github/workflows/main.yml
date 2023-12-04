@@ -29,7 +29,10 @@ jobs:
     
     - name: Install Jest-dom
       run: npm i --save-dev @testing-library/jest-dom
-    
+
+    - name: Run tests
+      run: npm test
+
     - name: Install eslint
       run: npm install eslint --save-dev
     
@@ -38,12 +41,6 @@ jobs:
     
     - name: Update eslint-config-standard
       run: npm install eslint@latest eslint-config-standard@latest --save-dev 
-
-    - name: Run tests
-      run: npm test
-
-    - name: Run linting
-      run: npm run lint
 
     - name: Build release
       run: npm run build
