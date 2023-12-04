@@ -1,0 +1,60 @@
+name: React CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 14
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test
+
+    - name: Run linting
+      run: npm run lint
+
+    - name: Build release
+      run: npm run build
+
+  release:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    steps:
+    - name: Upload release artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: release
+        path: build
+
+    - name: Deploy release
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const { data } = await github.repos.createRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            tag_name: 'v${{ github.run_number }}',
+            target_commitish: github.sha,
+            name: 'Release v${{ github.run_number }}',
+            draft: false,
+            prerelease: false,
+          });
+          core.setOutput('release_id', data.id);
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
