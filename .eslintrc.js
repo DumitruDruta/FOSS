@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true
   },
-  extends: 'standard',
+  extends: "standard",
   overrides: [
     {
       env: {
@@ -23,13 +23,13 @@ module.exports = {
     sourceType: "module"
   },
   plugins: [
-    "react"
+    "react",
+    "jest"
   ],
   rules: {
     quotes: ["error", "double"], // use Always double quotes
     "space-before-function-paren": ["error", "never"], // No Space between function and parentheses
     "react/prop-types": "off",
-    extends: ["plugin:jest/recommended"], //for Jest
-    plugins: ["jest"]
+    "jest/expect-expect": 2
   }
 }
