@@ -20,13 +20,24 @@ jobs:
 
     - name: Install dependencies
       run: npm install
-           npm install @mui/material @emotion/react @emotion/styled
-           npm install --save-dev @testing-library/react
-           npm i --save-dev @testing-library/jest-dom
-           npm install eslint --save-dev
-           npm install eslint-config-standard --save-dev
-           npm install eslint@latest eslint-config-standard@latest --save-dev
-      
+    
+    - name: Install mui/material
+      run: npm install @mui/material @emotion/react @emotion/styled
+    
+    - name: Install the Testin Library
+      run: npm install --save-dev @testing-library/react     
+    
+    - name: Install Jest-dom
+      run: npm i --save-dev @testing-library/jest-dom
+    
+    - name: Install eslint
+      run: npm install eslint --save-dev
+    
+    - name: Install eslint-config-standard
+      run: npm install eslint-config-standard --save-dev
+    
+    - name: Update eslint-config-standard
+      run: npm install eslint@latest eslint-config-standard@latest --save-dev 
 
     - name: Run tests
       run: npm test
