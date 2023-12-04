@@ -41,6 +41,10 @@ jobs:
     
     - name: Install eslint-plugin-n
       run: npm install eslint-plugin-n --save-dev
+
+    - name: Update babel-preset-react-app
+      run: npm install --save-dev babel-preset-react-app@latest 
+      
       
 
     - name: Build release
