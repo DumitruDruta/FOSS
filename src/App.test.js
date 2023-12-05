@@ -13,7 +13,73 @@ test("test Bot Activation-button behaviour", () => {
     expect(botButton).toBeInTheDocument()
 })
 
-test('Validate switching between X and O', () => {
+
+test("test Bot  behaviour", () => {
+    render(<Game />)
+    var botButton = screen.getByText("Bot activate")
+    expect(botButton).toBeInTheDocument()
+    fireEvent.click(botButton)
+    var square = screen.getAllByTestId("square")
+    expect(square.length).toBe(9)
+    fireEvent.click(square[1])
+    var x = false
+    var o = false 
+    
+    for (let i = 0; i < square.length; i++){
+        if (square[i].textContent = "X"){
+            x = true
+        
+        }
+        if (square[i].textContent = "O"){
+            o = true
+        }
+    }
+    
+    expect(x && o).toBe(true)
+
+})
+
+test("test go back to move", () => {
+    render(<Game />)
+    var botButton = screen.getByText("Bot activate")
+    expect(botButton).toBeInTheDocument()
+    fireEvent.click(botButton)
+    var square = screen.getAllByTestId("square")
+    expect(square.length).toBe(9)
+    fireEvent.click(square[1])
+    fireEvent.click(square[2])
+    var squaresMv = screen.getAllByTestId("square")
+
+    var gameStart = screen.getByText("Go to game start")
+    fireEvent.click(gameStart)
+    var squareGmStart = screen.getAllByTestId("square")
+
+    var isEqual = true 
+    for (let i = 0; i < square.length; i++){
+        if (square[i] != squareGmStart [i]){
+            x = false
+            
+        }
+        
+    }
+    
+    var move = screen.getByText("Go to move #2")
+    fireEvent.click(move)
+    var squaresMvTest = screen.getAllByTestId("square")
+    for (let i = 0; i < square.length; i++){
+        if (squaresMv[i] != squaresMvTest [i]){
+            x = false
+            
+        }
+        
+    }
+
+    expect(isEqual).toBe(true)
+
+})
+
+
+test('test switching between X and O', () => {
     render(<Game />)
     var square = screen.getAllByTestId("square")
     expect(square.length).toBe(9)
@@ -24,7 +90,7 @@ test('Validate switching between X and O', () => {
     var status = screen.getByText("Next player: X")
 })
 
-test('Validate winning game', () => {
+test('test winning game', () => {
     render(<Game />)
     var square = screen.getAllByTestId("square")
     expect(square.length).toBe(9)
@@ -37,7 +103,7 @@ test('Validate winning game', () => {
     var status = screen.getByText("Winner: X")
 })
 
-test('Validate switching theme', () => {
+test('test switching theme', () => {
     render(<Game />)
     var theme_switch = screen.getByTestId("theme-switch")
     var main_div = screen.getByTestId("main-div")
@@ -49,7 +115,7 @@ test('Validate switching theme', () => {
     
 })
 
-test('test addiing player names input change', () => {
+test('test adding player names input change', () => {
     render(<Board/>)
 
     var maneInputX = screen.getByPlaceholderText("Type X Name")
@@ -60,7 +126,7 @@ test('test addiing player names input change', () => {
     expect(maneInputO.value).toBe("testb")
 })
 
-test('test addiing player names button press functionality', () => {
+test('test adding player names button press functionality', () => {
     render(<Board/>)
 
     var maneInputX = screen.getByPlaceholderText("Type X Name")
