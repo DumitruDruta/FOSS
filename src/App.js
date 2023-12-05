@@ -42,13 +42,11 @@ function Board({ xIsNext, squares, onPlay, bot }) {
 
   function handleClicknameX(e) {
     setenteredNameX(xname)
-    // setXName("");
-    e.target.disabled = true;
+    e.target.disabled = true
   }
   function handleClicknameO(e) {
     setEnteredNameO(oname)
-    // setOName("");
-    e.target.disabled = true;
+    e.target.disabled = true
   }
 
   function handleClick(i) {
