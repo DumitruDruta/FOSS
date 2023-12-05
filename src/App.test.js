@@ -81,3 +81,57 @@ test('test addiing player names button press functionality', () => {
     fireEvent.click(square[0])
     status = screen.getByText("Next player: testb")
 })
+
+test('Check Moves List', async () => {
+    render(<Game />)
+    var square = screen.getAllByTestId("square")
+  
+    // Make a sequence of moves
+    fireEvent.click(square[0]) // X's move
+    fireEvent.click(square[3]) // O's move
+    fireEvent.click(square[1]) // X's move
+    fireEvent.click(square[4]) // O's move
+  
+    // Wait for the next tick of the event loop
+    await new Promise(resolve => setTimeout(resolve, 0))
+  
+    // Check if the moves list is rendered
+    var movesList = document.getElementsByClassName("orderedList")[0]
+    expect(movesList).toBeInTheDocument()
+  
+    // Check if the list items are rendered based on the number of moves made
+    var movesCount = 5 // Adjust based on the number of moves made, including the initial state
+    var listItems = movesList.getElementsByTagName('li')
+    expect(listItems.length).toBe(movesCount)
+  
+    // Check if the first list item corresponds to the initial state
+    var firstListItem = listItems[0]
+    expect(firstListItem).toHaveTextContent("Go to game start")
+  
+    // Check if the last list item corresponds to the latest move
+    var lastListItem = listItems[movesCount - 1]
+    expect(lastListItem).toHaveTextContent("Go to move #4") // Adjust based on the last move
+  })
+  
+  test('Check Go to Game Start', () => {
+    render(<Game />)
+  
+    // Make some moves
+    const square = screen.getAllByTestId("square")
+    fireEvent.click(square[0])
+    fireEvent.click(square[3])
+  
+    // Click "Go to game start" button
+    const goToGameStartButton = screen.getByText("Go to game start")
+    fireEvent.click(goToGameStartButton)
+  
+    // Check if the game state is reset
+    const status = screen.getByText("Next player: X")
+    expect(status).toBeInTheDocument()
+  
+    // Ensure that the initial move is displayed in the moves list
+    const movesList = document.getElementsByClassName("orderedList")[0]
+    const listItems = movesList.getElementsByTagName('li')
+    const firstListItem = listItems[0]
+    expect(firstListItem).toHaveTextContent("Go to game start")
+  })
