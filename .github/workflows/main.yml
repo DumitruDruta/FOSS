@@ -45,8 +45,6 @@ jobs:
     - name: Update babel-preset-react-app
       run: npm install --save-dev babel-preset-react-app@latest 
       
-      
-
     - name: Build release
       run: npm run build
 
