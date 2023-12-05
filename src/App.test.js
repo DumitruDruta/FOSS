@@ -1,6 +1,7 @@
 import React from "react"
-import { render, screen, fireEvent } from "@testing-library/react"
+import { render, screen, fireEvent, queryByPlaceholderText } from "@testing-library/react"
 import Game from "./App.js"
+import Board from "./App.js"
 import "@testing-library/jest-dom"
 
 test("test Bot Activation-button behaviour", () => {
@@ -46,4 +47,37 @@ test('Validate switching theme', () => {
     var theme = main_div.id
     expect(theme).toBe("light")
     
+})
+
+test('test addiing player names input change', () => {
+    render(<Board/>)
+
+    var maneInputX = screen.getByPlaceholderText("Type X Name")
+    fireEvent.change(maneInputX, { target: { value: 'testa' } })
+    expect(maneInputX.value).toBe("testa")
+    var maneInputO = screen.getByPlaceholderText("Type O Name")
+    fireEvent.change(maneInputO, { target: { value: 'testb' } })
+    expect(maneInputO.value).toBe("testb")
+})
+
+test('test addiing player names button press functionality', () => {
+    render(<Board/>)
+
+    var maneInputX = screen.getByPlaceholderText("Type X Name")
+    fireEvent.change(maneInputX, { target: { value: 'testa' } })
+    var maneInputO = screen.getByPlaceholderText("Type O Name")
+    fireEvent.change(maneInputO, { target: { value: 'testb' } })
+
+    var status = screen.getByTestId("status")
+    var square = screen.getAllByTestId("square")
+
+    var addingnamesbuttonx = screen.getByTestId("xplayernamebutton")
+    var addingnamesbuttono = screen.getByTestId("oplayernamebutton")
+
+    fireEvent.click(addingnamesbuttonx)
+    status = screen.getByText("Next player: testa")
+
+    fireEvent.click(addingnamesbuttono)
+    fireEvent.click(square[0])
+    status = screen.getByText("Next player: testb")
 })
