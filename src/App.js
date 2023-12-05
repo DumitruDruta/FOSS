@@ -43,10 +43,12 @@ function Board({ xIsNext, squares, onPlay, bot }) {
   function handleClicknameX(e) {
     setenteredNameX(xname)
     // setXName("");
+    e.target.disabled = true;
   }
   function handleClicknameO(e) {
     setEnteredNameO(oname)
     // setOName("");
+    e.target.disabled = true;
   }
 
   function handleClick(i) {
@@ -92,12 +94,14 @@ function Board({ xIsNext, squares, onPlay, bot }) {
           >
             <TextField
               type="text"
+              placeholder = "Type X Name"
               onChange={(e) => setXName(e.target.value)}
               value={xname}
               label="X Player"
               margin="normal"
             />
             <Button
+              data-testid = "xplayernamebutton"
               onClick={handleClicknameX}
               variant="contained"
               color="primary"
@@ -107,12 +111,14 @@ function Board({ xIsNext, squares, onPlay, bot }) {
             <br />
             <TextField
               type="text"
+              placeholder = "Type O Name"
               onChange={(e) => setOName(e.target.value)}
               value={oname}
               label="O Player"
               margin="normal"
             />
             <Button
+              data-testid = "oplayernamebutton"
               onClick={handleClicknameO}
               variant="contained"
               color="primary"
@@ -123,7 +129,7 @@ function Board({ xIsNext, squares, onPlay, bot }) {
         </Grid>
         <Grid item xs={6} style={{ marginTop: "30px" }}>
           <Grid container direction="column" alignItems="center">
-            <Typography variant="h6" className="status">
+            <Typography variant="h6" className="status" data-testid="status">
               {status}
             </Typography>
 
@@ -248,7 +254,7 @@ export default function Game() {
   })
 
   return (
-    <div id={theme}>
+    <div id={theme} data-testid = "main-div">
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -262,7 +268,7 @@ export default function Game() {
             {"Bot " + botText}
           </Button>
           <div style={{ marginLeft: "30px" }}>
-            <ReactSwitch onChange={toggleTheme} checked={theme === "dark"} />
+            <ReactSwitch onChange={toggleTheme} checked={theme === "dark"} data-testid = "theme-switch"/>
           </div>
           {/* <label>{theme === "light" ? "Light Mode" : "Dark Mode"}</label> */}
         </Toolbar>
