@@ -31,6 +31,7 @@ module.exports = {
     quotes: ["error", "double"], // use Always double quotes
     "space-before-function-paren": ["error", "never"], // No Space between function and parentheses
     "react/prop-types": "off",
-    "jest/expect-expect": 2
+    "jest/expect-expect": 2,
+    "no-debugger":"off"
   }
 }

@@ -225,8 +225,7 @@ export default function Game() {
   }
 
   function handleBot() {
-    setCurrentMove(0)
-    setHistory([[Array(9).fill(null)]])
+    jumpTo(0)
     if (bot) {
       setBotText("activate")
       setBot(false)
