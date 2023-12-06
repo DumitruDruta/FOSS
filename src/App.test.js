@@ -28,15 +28,12 @@ test("test Bot  behaviour", () => {
     for (let i = 0; i < square.length; i++){
         if (square[i].textContent = "X"){
             x = true
-        
         }
         if (square[i].textContent = "O"){
             o = true
         }
     }
-    
     expect(x && o).toBe(true)
-
 })
 
 test("test go back to move", () => {
@@ -58,9 +55,7 @@ test("test go back to move", () => {
     for (let i = 0; i < square.length; i++){
         if (square[i] != squareGmStart [i]){
             x = false
-            
         }
-        
     }
     
     var move = screen.getByText("Go to move #2")
@@ -69,11 +64,8 @@ test("test go back to move", () => {
     for (let i = 0; i < square.length; i++){
         if (squaresMv[i] != squaresMvTest [i]){
             x = false
-            
         }
-        
     }
-
     expect(isEqual).toBe(true)
 
 })
@@ -151,51 +143,41 @@ test('test adding player names button press functionality', () => {
 test('Check Moves List', async () => {
     render(<Game />)
     var square = screen.getAllByTestId("square")
-  
-    // Make a sequence of moves
-    fireEvent.click(square[0]) // X's move
-    fireEvent.click(square[3]) // O's move
-    fireEvent.click(square[1]) // X's move
-    fireEvent.click(square[4]) // O's move
-  
-    // Wait for the next tick of the event loop
+
+    fireEvent.click(square[0])
+    fireEvent.click(square[3])
+    fireEvent.click(square[1])
+    fireEvent.click(square[4])
+
     await new Promise(resolve => setTimeout(resolve, 0))
-  
-    // Check if the moves list is rendered
+
     var movesList = document.getElementsByClassName("orderedList")[0]
     expect(movesList).toBeInTheDocument()
-  
-    // Check if the list items are rendered based on the number of moves made
-    var movesCount = 5 // Adjust based on the number of moves made, including the initial state
+
+    var movesCount = 5
     var listItems = movesList.getElementsByTagName('li')
     expect(listItems.length).toBe(movesCount)
   
-    // Check if the first list item corresponds to the initial state
     var firstListItem = listItems[0]
     expect(firstListItem).toHaveTextContent("Go to game start")
-  
-    // Check if the last list item corresponds to the latest move
+
     var lastListItem = listItems[movesCount - 1]
-    expect(lastListItem).toHaveTextContent("Go to move #4") // Adjust based on the last move
+    expect(lastListItem).toHaveTextContent("Go to move #4")
   })
   
   test('Check Go to Game Start', () => {
     render(<Game />)
-  
-    // Make some moves
+
     const square = screen.getAllByTestId("square")
     fireEvent.click(square[0])
     fireEvent.click(square[3])
-  
-    // Click "Go to game start" button
+
     const goToGameStartButton = screen.getByText("Go to game start")
     fireEvent.click(goToGameStartButton)
   
-    // Check if the game state is reset
     const status = screen.getByText("Next player: X")
     expect(status).toBeInTheDocument()
   
-    // Ensure that the initial move is displayed in the moves list
     const movesList = document.getElementsByClassName("orderedList")[0]
     const listItems = movesList.getElementsByTagName('li')
     const firstListItem = listItems[0]
